@@ -10,7 +10,6 @@ import {CategoryService} from '../../service/category.service';
 export class CategoryCreateComponent implements OnInit {
 
   categoryForm: FormGroup = new FormGroup({
-    id: new FormControl(),
     name: new FormControl(),
   });
   constructor(private categoryService: CategoryService) { }
@@ -20,7 +19,11 @@ export class CategoryCreateComponent implements OnInit {
 
   submit() {
     const category = this.categoryForm.value;
-    this.categoryService.saveCategory(category);
-    this.categoryForm.reset();
+    this.categoryService.saveCategory(category).subscribe(() => {
+      this.categoryForm.reset();
+      alert('Success');
+    }, e => {
+      console.log(e);
+    });
   }
 }

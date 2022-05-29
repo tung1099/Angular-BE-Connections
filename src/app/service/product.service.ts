@@ -16,8 +16,8 @@ export class ProductService {
     return this.http.get<Product[]>(API_URL + '/products');
   }
 
-  saveProduct(category): Observable<Product> {
-    return this.http.post<Product>(API_URL + '/products', category);
+  saveProduct(product: Product): Observable<Product> {
+    return this.http.post<Product>(API_URL + '/products', product);
   }
 
   findById(id: number): Observable<Product> {

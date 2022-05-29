@@ -14,6 +14,13 @@
       <td><input type="text" formControlName="description"></td>
     </tr>
     <tr>
+      <td>Danh mục sản phẩm</td>
+      <td><select formControlName="category">
+        <option disabled>Choose...</option>
+        <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
+      </select></td>
+    </tr>
+    <tr>
       <td></td>
       <td><button>Cập nhật</button></td>
     </tr>

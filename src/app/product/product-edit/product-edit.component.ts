@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {ProductService} from '../../service/product.service';
 import {ActivatedRoute, ParamMap} from '@angular/router';
+import {CategoryService} from '../../service/category.service';
+import {Category} from '../../model/category';
 
 @Component({
   selector: 'app-product-edit',
@@ -12,7 +14,9 @@ export class ProductEditComponent implements OnInit {
 
   productForm: FormGroup;
   id: number;
+  categories: Category[] = [];
   constructor(private productService: ProductService,
+              private categoryService: CategoryService,
               private activatedRoute: ActivatedRoute) {
     this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
       this.id = +paramMap.get('id');
@@ -21,6 +25,7 @@ export class ProductEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getAllCategories();
   }
 
   getProduct(id: number) {
@@ -40,5 +45,11 @@ export class ProductEditComponent implements OnInit {
       console.log(e);
       }
     );
+  }
+
+  private getAllCategories() {
+    this.categoryService.getAllCategory().subscribe(categories => {
+      this.categories = categories;
+    });
   }
 }

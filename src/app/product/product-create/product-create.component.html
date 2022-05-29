@@ -13,9 +13,27 @@
       <td>Mô tả về sản phẩm</td>
       <td><input type="text" formControlName="description"></td>
     </tr>
+<!--    <tr>-->
+<!--      <td>Category</td>-->
+<!--      <td>-->
+<!--        <select id="category" formControlName="category">-->
+<!--          <option *ngFor="let category of categories" [value]="category.id">-->
+<!--            {{category.name}}-->
+<!--          </option>-->
+<!--        </select>-->
+<!--      </td>-->
+<!--    </tr>-->
+    <tr>
+      <td>Danh mục sản phẩm</td>
+      <td><select formControlName="category">
+        <option selected [value]="null" disabled>Choose...</option>
+        <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
+      </select></td>
+    </tr>
     <tr>
       <td></td>
       <td><button>Tạo mới</button></td>
     </tr>
   </table>
 </form>
+
