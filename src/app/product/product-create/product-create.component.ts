@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProductService} from '../../service/product.service';
 import {Category} from '../../model/category';
 import {CategoryService} from '../../service/category.service';
 import {Router} from '@angular/router';
+import {Product} from '../../model/product';
 
 @Component({
   selector: 'app-product-create',
@@ -11,36 +12,49 @@ import {Router} from '@angular/router';
   styleUrls: ['./product-create.component.css']
 })
 export class ProductCreateComponent implements OnInit {
-
-  productForm: FormGroup = new FormGroup({
-    name: new FormControl(),
-    price: new FormControl(),
-    description: new FormControl(),
-  });
+  product: Product[] = [];
   categories: Category[] = [];
+  productForm: FormGroup = new FormGroup({
+    name: new FormControl('', [Validators.required]),
+    price: new FormControl('', [Validators.required, Validators.pattern(/^\d*$/)]),
+    description: new FormControl('', [Validators.required]),
+    category: new FormControl('')
+  });
   constructor(private productService: ProductService,
-              private categoryService: CategoryService,
-              private router: Router) {
+              private categoryService: CategoryService) {
+  }
+  ngOnInit(): void {
     this.getAllCategories();
   }
-
-  ngOnInit() {
-  }
-
   submit() {
-    const product = this.productForm.value;
-    this.productService.saveProduct(product).subscribe(() => {
+    if (this.productForm.invalid) {
+      return;
+    } else {
+      const product = this.productForm.value;
+      product.category = {
+        id: product.category
+      };
+      this.productService.saveProduct(product).subscribe(() => {
+        alert('Success');
+      });
       this.productForm.reset();
-      alert('Success');
-    }, e => {
-      console.log(e);
-      }
-    );
+    }
   }
-
-  private getAllCategories() {
-    this.categoryService.getAllCategory().subscribe(categories => {
+  get nameControl() {
+    return this.productForm.get('name');
+  }
+  get priceControl() {
+    return this.productForm.get('price');
+  }
+  get descriptionControl() {
+    return this.productForm.get('description');
+  }
+  getAllCategories() {
+    this.categoryService.getAllCategory().subscribe((categories) => {
       this.categories = categories;
-    });
+    }, (error) => {
+      alert(error);
+        }
+    );
   }
 }
