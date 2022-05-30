@@ -5,6 +5,7 @@ import {Category} from '../../model/category';
 import {CategoryService} from '../../service/category.service';
 import {Router} from '@angular/router';
 import {Product} from '../../model/product';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-product-create',
@@ -35,7 +36,13 @@ export class ProductCreateComponent implements OnInit {
         id: product.category
       };
       this.productService.saveProduct(product).subscribe(() => {
-        alert('Success');
+        Swal.fire({
+          position: 'top-left',
+          icon: 'success',
+          title: 'Thêm mới thành công',
+          showConfirmButton: false,
+          timer: 1500
+        });
       });
       this.productForm.reset();
     }

@@ -3,6 +3,7 @@ import {Category} from './model/category';
 import {ProductService} from './service/product.service';
 import {CategoryService} from './service/category.service';
 import {Router} from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-root',
