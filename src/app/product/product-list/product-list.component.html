@@ -1,36 +1,70 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light" xmlns:paginate="http://www.w3.org/1999/xhtml"
-     xmlns:paginate="http://www.w3.org/1999/xhtml">
+<section class="content-header">
   <div class="container-fluid">
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
+    <div class="row mb-12">
+      <div class="card card-dark">
+        <div class="card-header">
+          <h1 class="headline">Product Management</h1>
+        </div>
+      </div>
     </div>
+  </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">
+              <a class="btn btn-primary" routerLink="/product/create">Add new</a>
+            </h3>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <table id="products" class="table table-bordered table-hover">
+              <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>Image</th>
+                <th>Category</th>
+                <th></th>
+                <th></th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let product of products; index as i">
+                <td>{{i+1}}</td>
+                <td>{{product.name}}</td>
+                <td>{{product.price}}</td>
+                <td>{{product.description}}</td>
+                <td><img src="http://localhost:8080/image/{{product.image}}" width="100px"></td>
+                <td>{{product.category.name}}</td>
+                <td>
+                  <a class="btn btn-warning" routerLink="/product/edit/{{product.id}}">
+                    <span class="fas fa-edit"></span>
+                  </a>
+                </td>
+                <td>
+                  <a class="btn btn-danger" routerLink="/product/delete/{{product.id}}">
+                    <span class="fas fa-trash"></span>
+                  </a>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
   </div>
-</nav>
-<h1>Danh sách sản phẩm</h1>
-<a routerLink="/product/create">Tạo mới sản phẩm</a>
-<table class="table">
-  <tr>
-    <td>STT</td>
-    <td>Tên</td>
-    <td>Giá</td>
-    <td>Mô tả</td>
-    <td>Image</td>
-    <td>Thể loại</td>
-    <td>Edit</td>
-    <td>Delete</td>
-  </tr>
-  <tr *ngFor="let product of products | paginate: {itemsPerPage:3 , currentPage: p}; index as i ">
-    <td>{{i + 1}}</td>
-    <td>{{product.name}}</td>
-    <td>{{product.price}}</td>
-    <td>{{product.description}}</td>
-    <td><img src="http://localhost:8080/image/{{product.image}}" width="100px"></td>
-    <td>{{product.category.name}}</td>
-    <td><a [routerLink]="['/product/edit',product.id]">Edit</a></td>
-    <td><a [routerLink]="['/product/delete',product.id]">Delete</a></td>
-  </tr>
-</table>
-<pagination-controls (pageChange)="p = $event"></pagination-controls>
+  <!-- /.container-fluid -->
+</section>
