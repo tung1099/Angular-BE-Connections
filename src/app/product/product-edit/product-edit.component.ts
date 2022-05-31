@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./product-edit.component.css']
 })
 export class ProductEditComponent implements OnInit {
-  selectedFile = null;
+  selectedFile = new File(['name'], 'fileName.jpg');
   productForm: FormGroup = new FormGroup({
     id: new FormControl(),
     name: new FormControl('', [Validators.required]),

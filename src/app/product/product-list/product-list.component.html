@@ -1,3 +1,14 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light" xmlns:paginate="http://www.w3.org/1999/xhtml"
+     xmlns:paginate="http://www.w3.org/1999/xhtml">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
 <h1>Danh sách sản phẩm</h1>
 <a routerLink="/product/create">Tạo mới sản phẩm</a>
 <table class="table">
@@ -11,7 +22,7 @@
     <td>Edit</td>
     <td>Delete</td>
   </tr>
-  <tr *ngFor="let product of products; index as i">
+  <tr *ngFor="let product of products | paginate: {itemsPerPage:2 , currentPage: p}; index as i ">
     <td>{{i + 1}}</td>
     <td>{{product.name}}</td>
     <td>{{product.price}}</td>
@@ -22,3 +33,4 @@
     <td><a [routerLink]="['/product/delete',product.id]">Delete</a></td>
   </tr>
 </table>
+<pagination-controls (pageChange)="p = $event"></pagination-controls>
