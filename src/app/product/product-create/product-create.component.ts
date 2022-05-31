@@ -13,12 +13,14 @@ import Swal from 'sweetalert2';
   styleUrls: ['./product-create.component.css']
 })
 export class ProductCreateComponent implements OnInit {
+  userFile: any = File;
   product: Product[] = [];
   categories: Category[] = [];
   productForm: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),
     price: new FormControl('', [Validators.required, Validators.pattern(/^\d*$/)]),
     description: new FormControl('', [Validators.required]),
+    image: new FormControl(''),
     category: new FormControl('')
   });
   constructor(private productService: ProductService,
@@ -27,14 +29,24 @@ export class ProductCreateComponent implements OnInit {
   ngOnInit(): void {
     this.getAllCategories();
   }
+  onSelectFile(event: Event) {
+    // @ts-ignore
+    this.userFile = event.target.files[0];
+  }
   submit() {
     if (this.productForm.invalid) {
       return;
     } else {
-      const product = this.productForm.value;
-      product.category = {
-        id: product.category
-      };
+      const product = new FormData();
+      product.append('name', this.productForm.get('name').value);
+      product.append('price', this.productForm.get('price').value);
+      product.append('description', this.productForm.get('description').value);
+      product.append('image', this.userFile);
+      product.append('category', this.productForm.get('category').value);
+
+      // product.category = {
+      //   id: product.category
+      // };
       this.productService.saveProduct(product).subscribe(() => {
         Swal.fire({
           position: 'top-left',

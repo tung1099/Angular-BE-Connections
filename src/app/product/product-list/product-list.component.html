@@ -6,14 +6,17 @@
     <td>Tên</td>
     <td>Giá</td>
     <td>Mô tả</td>
+    <td>Image</td>
     <td>Thể loại</td>
-    <td colspan="2">Action</td>
+    <td>Edit</td>
+    <td>Delete</td>
   </tr>
   <tr *ngFor="let product of products; index as i">
     <td>{{i + 1}}</td>
     <td>{{product.name}}</td>
     <td>{{product.price}}</td>
     <td>{{product.description}}</td>
+    <td><img src="http://localhost:8080/image/{{product.image}}" width="100px"></td>
     <td>{{product.category.name}}</td>
     <td><a [routerLink]="['/product/edit',product.id]">Edit</a></td>
     <td><a [routerLink]="['/product/delete',product.id]">Delete</a></td>

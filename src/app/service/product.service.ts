@@ -16,7 +16,7 @@ export class ProductService {
     return this.http.get<Product[]>(API_URL + '/products');
   }
 
-  saveProduct(product: Product): Observable<Product> {
+  saveProduct(product: FormData): Observable<Product> {
     return this.http.post<Product>(API_URL + '/products', product);
   }
 
@@ -24,8 +24,8 @@ export class ProductService {
     return this.http.get<Product>(`${API_URL}/products/${id}`);
   }
 
-  editProduct(id: number, product: Product): Observable<Product> {
-    return this.http.put<Product>(`${API_URL}/products/${id}`, product);
+  editProduct(id: number, product: FormData): Observable<Product> {
+    return this.http.post<Product>(`${API_URL}/products/edit/${id}`, product);
   }
 
   deleteProduct(id: number): Observable<Product> {

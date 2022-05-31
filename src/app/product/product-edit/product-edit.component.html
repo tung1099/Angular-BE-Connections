@@ -1,5 +1,4 @@
 <h1>Cập nhập Sản Phẩm</h1>
-<h2><a routerLink="/product/list">Home</a></h2>
 <div class="container">
   <form [formGroup]="productForm" (ngSubmit)="editProduct(id)">
     <input type="hidden" id="id" name="id" formControlName="id">
@@ -13,7 +12,7 @@
       </div>
     </div>
     <div class="mb-3">
-      <label for="price" class="form-label">Gái Sản phẩm</label>
+      <label for="price" class="form-label">Giá Sản phẩm</label>
       <input type="text" class="form-control" id="price" formControlName="price">
       <div *ngIf="priceControl.touched && priceControl.invalid">
         <p style="color: red" *ngIf="priceControl.errors?.required">
@@ -32,6 +31,12 @@
           Vui lòng nhập mô tả .
         </p>
       </div>
+    </div>
+    <div class="mb-3">
+      <label for="image">Image: </label>
+      <img src="http://localhost:8080/image/{{image}}" width="100px" alt=""><br>
+      <br>
+      <input type="file" id="image" formControlName="image" (change)="onSelectedFile($event)">
     </div>
     <div class="mb-3">
       <label for="category">Thể loại</label>

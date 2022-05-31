@@ -12,7 +12,9 @@ import Swal from 'sweetalert2';
   styleUrls: ['./product-edit.component.css']
 })
 export class ProductEditComponent implements OnInit {
+  selectedFile = null;
   productForm: FormGroup = new FormGroup({
+    id: new FormControl(),
     name: new FormControl('', [Validators.required]),
     price: new FormControl('', [Validators.required, Validators.pattern(/^\d*$/)]),
     description: new FormControl('', [Validators.required]),
@@ -20,6 +22,7 @@ export class ProductEditComponent implements OnInit {
   });
   id: number;
   categories: Category[] = [];
+  image = null;
   constructor(private productService: ProductService,
               private categoryService: CategoryService,
               private router: Router,
@@ -32,14 +35,19 @@ export class ProductEditComponent implements OnInit {
   ngOnInit(): void {
     this.getAllCategories();
   }
+  onSelectedFile(event) {
+    this.selectedFile = event.target.files[0] as File;
+  }
 
   private getProductById(id: number) {
     return this.productService.findById(id).subscribe((product) => {
+      this.image = product.image;
       this.productForm = new FormGroup({
         id: new FormControl(product.id),
         name: new FormControl(product.name),
         price: new FormControl(product.price),
         description: new FormControl(product.description),
+        image: new FormControl(),
         category: new FormControl(product.category.id),
       });
     });
@@ -49,10 +57,13 @@ export class ProductEditComponent implements OnInit {
     if (this.productForm.invalid) {
       return;
     } else  {
-      const product = this.productForm.value;
-      product.category = {
-        id: product.category
-      };
+      const product: FormData = new FormData();
+      product.append('id', this.productForm.get('id').value);
+      product.append('name', this.productForm.get('name').value);
+      product.append('price', this.productForm.get('price').value);
+      product.append('description', this.productForm.get('description').value);
+      product.append('image', this.selectedFile);
+      product.append('category', this.productForm.get('category').value);
       this.productService.editProduct(id, product).subscribe(() => {
         Swal.fire({
           position: 'top-left',
@@ -65,7 +76,7 @@ export class ProductEditComponent implements OnInit {
       });
     }
   }
-  private getAllCategories() {
+   getAllCategories() {
     this.categoryService.getAllCategory().subscribe((categories) => {
       this.categories = categories;
     }, (error) => {

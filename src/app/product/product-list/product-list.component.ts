@@ -12,24 +12,18 @@ import {CategoryService} from '../../service/category.service';
 export class ProductListComponent implements OnInit {
 
   products: Product[] = [];
-  categories: Category[] = [];
   constructor(private productService: ProductService,
               private categoryService: CategoryService) {
   }
 
   ngOnInit() {
     this.getAllProduct();
-    this.getAllCategories();
   }
 
    getAllProduct() {
     this.productService.getAll().subscribe(products => {
-      this.products = products;
-    });
-  }
-  getAllCategories() {
-    this.categoryService.getAllCategory().subscribe(categories => {
-      this.categories = categories;
+        // @ts-ignore
+      this.products = products.content;
     });
   }
 }
