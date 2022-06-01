@@ -1,9 +1,11 @@
 <section class="content-header">
   <div class="container-fluid">
-    <div class="row mb-12">
-      <div class="card card-dark">
-        <div class="card-header">
-          <h1 class="headline">Product Management</h1>
+    <div class="row mb-2">
+      <div class="col-sm-12">
+        <div class="card card-dark">
+          <div class="card-header">
+            <h1 class="card-title">Product Management</h1>
+          </div>
         </div>
       </div>
     </div>
@@ -32,8 +34,8 @@
                 <th>Description</th>
                 <th>Image</th>
                 <th>Category</th>
-                <th></th>
-                <th></th>
+                <th>Edit</th>
+                <th>Delete</th>
               </tr>
               </thead>
               <tbody>
@@ -42,17 +44,15 @@
                 <td>{{product.name}}</td>
                 <td>{{product.price}}</td>
                 <td>{{product.description}}</td>
-                <td><img src="http://localhost:8080/image/{{product.image}}" width="100px"></td>
+                <td><img src="http://localhost:8080/image/{{product.image}}" width="100px" height="100px"></td>
                 <td>{{product.category.name}}</td>
-                <td>
-                  <a class="btn btn-warning" routerLink="/product/edit/{{product.id}}">
-                    <span class="fas fa-edit"></span>
-                  </a>
+                <td><a class="btn btn-warning" [routerLink]="['/product/edit',product.id]">
+                  <span class="fas fa-edit"></span>
+                </a>
                 </td>
-                <td>
-                  <a class="btn btn-danger" routerLink="/product/delete/{{product.id}}">
-                    <span class="fas fa-trash"></span>
-                  </a>
+                <td><a class="btn btn-danger" [routerLink]="['/product/delete',product.id]">
+                  <span class="fas fa-trash"></span>
+                </a>
                 </td>
               </tr>
               </tbody>

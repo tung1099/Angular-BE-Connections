@@ -25,7 +25,7 @@ export class ProductService {
   }
 
   editProduct(id: number, product: FormData): Observable<Product> {
-    return this.http.post<Product>(`${API_URL}/products/edit/${id}`, product);
+    return this.http.post<Product>(`${API_URL}/products/${id}`, product);
   }
 
   deleteProduct(id: number): Observable<Product> {

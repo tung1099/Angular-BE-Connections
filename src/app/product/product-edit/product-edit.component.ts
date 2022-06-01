@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup} from '@angular/forms';
 import {ProductService} from '../../service/product.service';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {CategoryService} from '../../service/category.service';
@@ -12,13 +12,14 @@ import Swal from 'sweetalert2';
   styleUrls: ['./product-edit.component.css']
 })
 export class ProductEditComponent implements OnInit {
-  selectedFile = new File(['name'], 'fileName.jpg');
+  selectedFile = new File(['none'], 'filename.jpg');
   productForm: FormGroup = new FormGroup({
     id: new FormControl(),
-    name: new FormControl('', [Validators.required]),
-    price: new FormControl('', [Validators.required, Validators.pattern(/^\d*$/)]),
-    description: new FormControl('', [Validators.required]),
-    category: new FormControl('')
+    name: new FormControl(),
+    price: new FormControl(),
+    description: new FormControl(),
+    image: new FormControl(),
+    category: new FormControl()
   });
   id: number;
   categories: Category[] = [];
@@ -35,10 +36,51 @@ export class ProductEditComponent implements OnInit {
   ngOnInit(): void {
     this.getAllCategories();
   }
-  onSelectedFile(event) {
+
+  onFileSelected(event) {
     this.selectedFile = event.target.files[0] as File;
   }
 
+  // productForm: FormGroup;
+  // id: number;
+  // categories: Category[] = [];
+  // constructor(private productService: ProductService,
+  //             private categoryService: CategoryService,
+  //             private activatedRoute: ActivatedRoute) {
+  //   this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
+  //     this.id = +paramMap.get('id');
+  //     this.getProduct(this.id);
+  //   });
+  // }
+  //
+  // ngOnInit() {
+  //   this.getAllCategories();
+  // }
+  //
+  // getProduct(id: number) {
+  //   return this.productService.findById(id).subscribe(product => {
+  //     this.productForm = new FormGroup({
+  //       name: new FormControl(product.name),
+  //       price: new FormControl(product.price),
+  //       description: new FormControl(product.description),
+  //     });
+  //   });
+  // }
+  // editProduct(id: number) {
+  //   const product = this.productForm.value;
+  //   this.productService.editProduct(id, product).subscribe(() => {
+  //     alert('Success');
+  //   }, e => {
+  //     console.log(e);
+  //     }
+  //   );
+  // }
+  //
+  // private getAllCategories() {
+  //   this.categoryService.getAllCategory().subscribe(categories => {
+  //     this.categories = categories;
+  //   });
+  // }
   private getProductById(id: number) {
     return this.productService.findById(id).subscribe((product) => {
       this.image = product.image;
@@ -47,7 +89,7 @@ export class ProductEditComponent implements OnInit {
         name: new FormControl(product.name),
         price: new FormControl(product.price),
         description: new FormControl(product.description),
-        image: new FormControl(),
+        image: new FormControl(product.image),
         category: new FormControl(product.category.id),
       });
     });
@@ -64,6 +106,10 @@ export class ProductEditComponent implements OnInit {
       product.append('description', this.productForm.get('description').value);
       product.append('image', this.selectedFile);
       product.append('category', this.productForm.get('category').value);
+      // const product = this.productForm.value;
+      // product.category = {
+      //   id: product.category
+      // };
       this.productService.editProduct(id, product).subscribe(() => {
         Swal.fire({
           position: 'top-left',
@@ -76,7 +122,7 @@ export class ProductEditComponent implements OnInit {
       });
     }
   }
-   getAllCategories() {
+  private getAllCategories() {
     this.categoryService.getAllCategory().subscribe((categories) => {
       this.categories = categories;
     }, (error) => {

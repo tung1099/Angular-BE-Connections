@@ -20,15 +20,17 @@ export class ProductCreateComponent implements OnInit {
     name: new FormControl('', [Validators.required]),
     price: new FormControl('', [Validators.required, Validators.pattern(/^\d*$/)]),
     description: new FormControl('', [Validators.required]),
-    image: new FormControl(''),
+    image: new FormControl(),
     category: new FormControl('')
   });
   constructor(private productService: ProductService,
-              private categoryService: CategoryService) {
+              private categoryService: CategoryService,
+              private router: Router) {
   }
   ngOnInit(): void {
     this.getAllCategories();
   }
+
   onSelectFile(event: Event) {
     // @ts-ignore
     this.userFile = event.target.files[0];
@@ -43,7 +45,6 @@ export class ProductCreateComponent implements OnInit {
       product.append('description', this.productForm.get('description').value);
       product.append('image', this.userFile);
       product.append('category', this.productForm.get('category').value);
-
       // product.category = {
       //   id: product.category
       // };
@@ -57,6 +58,7 @@ export class ProductCreateComponent implements OnInit {
         });
       });
       this.productForm.reset();
+      // this.router.navigate(['/product/list']);
     }
   }
   get nameControl() {
@@ -70,9 +72,9 @@ export class ProductCreateComponent implements OnInit {
   }
   getAllCategories() {
     this.categoryService.getAllCategory().subscribe((categories) => {
-      this.categories = categories;
-    }, (error) => {
-      alert(error);
+          this.categories = categories;
+        }, (error) => {
+          alert(error);
         }
     );
   }

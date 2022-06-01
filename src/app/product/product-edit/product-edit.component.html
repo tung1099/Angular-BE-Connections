@@ -36,12 +36,14 @@
         </p>
       </div>
     </div>
+
     <div class="mb-3">
-      <label for="image">Image: </label>
-      <img src="http://localhost:8080/image/{{image}}" width="100px" alt=""><br>
+      <label for="image">Ảnh</label>
       <br>
-      <input type="file" id="image" formControlName="image" (change)="onSelectedFile($event)">
+      <img src="http://localhost:8080/image/{{image}}" width="100" alt="" >
+      <input type="file" id="image"  (change)="onFileSelected($event)" >
     </div>
+
     <div class="mb-3">
       <label for="category">Thể loại</label>
       <select  formControlName="category" id="category">
